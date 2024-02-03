@@ -36,25 +36,10 @@ for arg_name, arg_desc in arguments.items():
             url += f'?{remove_dash(arg_name)}={arg_value}'
         else:
             url += f'&{remove_dash(arg_name)}={arg_value}'
-#query_term='Toy Story'
 
 data = requests.get(url).json()
-for i in range(len(data['data']['movies'])):
+print(data['data']['movie_count'])
+for i in range(data['movie_count']):
     print(data['data']['movies'][i]['title_long'])
-# print(data['data']['movies'][0]['title_long'])
-# print(url)
 
-
-
-# for i in range(10):
-    # print(data.json()['data']['movies'][i]['title_long'])
-
-
-
-
-# print(data.json()['movies'][i]['title_long'])
-
-
-
-
-# ['data']['movies'][0]['title_long']
+#TODO: ADD ARG FOR SUBTITLE AUTOMATIC DOWNLOAD
