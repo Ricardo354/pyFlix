@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import sys
 import requests
 
@@ -23,3 +24,18 @@ if '-h' in sys.argv or '--help' in sys.argv:
     sys.exit(0)
 
 
+#x = requests.get("https://yts.mx/api/v2/list_movies.json")
+
+#print(x.json()['status_message'])
+
+# += ?{}={}
+
+'''
+data_structure = {
+    "status": "",
+    "status_message": "",
+    "data": {
+        "key1": "value1",
+    }
+}
+'''
