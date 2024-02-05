@@ -73,13 +73,7 @@ def download_torrent(json: dict, choice: int, quality_choice: str, path: str):
     while not h.status().is_seeding:
         time.sleep(1)
 
-    info = h.get_torrent_info()
-
-    # Save the .torrent file
-    torrent_file_path = info.name() + ".torrent"
-    with open(torrent_file_path, "wb") as f:
-        f.write(lt.bencode(info))
-    
+        
 
 def remove_dash(text: str):
     return text.replace('-', '')
@@ -133,6 +127,8 @@ while True:
         break
     else:
         print("Invalid quality choice. Please choose from the available qualities.")
+
+#TODO: PROGRESS BAR;
 
 #TODO: ENABLE MULTIPLE TORRENT DOWNLOADING.
 
