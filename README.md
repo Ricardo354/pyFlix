@@ -10,17 +10,12 @@
 git clone https://github.com/Ricardo354/pyratedFlix.git
 ``` 
 
-2.Use the package manager [pip](https://pip.pypa.io/en/stable/) to install libtorrent.
+2.Install the requirements.txt.
 
 ```bash
-pip install python-libtorrent
+pip install -r /path/to/requirements.txt
 ```
-
-3.You can also use your own package manager, like i did:
-```bash
-yay -S libtorrent
-```
-4.Give Read, Write and Execute permissions to pyrateFlix
+3.Give Read, Write and Execute permissions to pyrateFlix
 ```bash
 chmod +rwx pyrateFlix.py
 ```
