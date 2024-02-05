@@ -153,9 +153,12 @@ for i in range(n):
         print(f'{fetch_info(GET, i)[0]} - {fetch_info(GET, i)[-1]}')
 
 
-
-choice = int(input("What movie do you want to download?: "))
-PATH = input("Do you want to choose a path to download your torrents?: ")
+while True:
+    choice = int(input("What movie do you want to download?: "))
+    if choice > n or choice < n:
+        print(f"Please choose a number between 0 and {n-1}")
+        continue
+PATH = input("Do you want to choose a path to download your torrents (e.g., ./)?: ")
 while True:
     quality_choice = input("Enter the quality you want to download (e.g., 720p): ")
     if quality_choice in {t['quality'] for t in GET['data']['movies'][choice]['torrents']}:
@@ -184,10 +187,7 @@ if not continue_flag:
         download_torrent(magnet[0], magnet[1], magnet[2], magnet[3])
 else:
     recursive_query(magnet_links)
-    
 
-
-#TODO: CHECK IF MOVIE I SELECTED IS IN RANGE
 
 #TODO: possibility of remaking query 
 
