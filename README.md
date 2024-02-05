@@ -24,10 +24,6 @@ Read the -h before using!
 ```bash
 ./pyrateFlix --help
 ```
-Example:
-```bash
-./pyrateFlix -q 'Toy Story' -v
-```
 
 ## Contributing
 
