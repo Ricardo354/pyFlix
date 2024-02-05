@@ -23,6 +23,7 @@ arguments = {
 '-verbose' : 'Display verbose output (title, id, imdb_code, lang, qualities)',
 
 }
+
 def get_user_input():
 
     global continue_flag
@@ -84,7 +85,6 @@ def verbose_out(json: dict, i: int):
     for i in range(len(info_list)):
         print(info_list[i])
 
-
 def download_torrent(json: dict, choice: int, quality_choice: str, path: str):
     for torrent in json['data']['movies'][choice]['torrents']:
         if torrent['quality'] == quality_choice:
@@ -101,17 +101,14 @@ def download_torrent(json: dict, choice: int, quality_choice: str, path: str):
 
 
     while (not h.status().is_seeding):
-        print('\r%.2f%% complete (down: %.1f kB/s up: %.1f kB/s peers: %d) %s' % (
-            h.status().progress * 100, h.status().download_rate / 1000, h.status().upload_rate / 1000,
+        print('\r%.2f%% complete (down: %.1f mB/s up: %.1f mB/s peers: %d) %s' % (
+            h.status().progress * 100, h.status().download_rate / 1000000, h.status().upload_rate / 1000000,
             h.status().num_peers, h.status().state), end=' ')
         time.sleep(1)
     print(f"\n{fetch_info(GET, i)[0]} has finished downloading!")
         
-
 def remove_dash(text: str):
     return text.replace('-', '')
-
-import pprint as p
 
 def recursive_query(magnet_links: list):
     query = input("Search: ")
