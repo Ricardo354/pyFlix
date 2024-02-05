@@ -23,6 +23,40 @@ arguments = {
 '-verbose' : 'Display verbose output (title, id, imdb_code, lang, qualities)',
 
 }
+def get_user_input():
+
+    global continue_flag
+
+    continue_flag = bool
+    while True:
+        choice = int(input("What movie do you want to download?: "))
+        if choice < 0 or choice >= n:
+            print(f"Please choose a number between 0 and {n - 1}")
+        else:
+            break
+
+    PATH = input("Do you want to choose a path to download your torrents (e.g., ./)?: ")
+
+    while True:
+        quality_choice = input("Enter the quality you want to download (e.g., 720p): ")
+        if quality_choice in {t['quality'] for t in GET['data']['movies'][choice]['torrents']}:
+            break
+        else:
+            print("Invalid quality choice. Please choose from the available qualities.")
+    while True:
+        option = input("Do you want to download another movie?: [Y/n]")
+        if option.lower() == 'n':
+            continue_flag = False
+            break
+        elif option.lower() != 'y':
+            option = input("Please select Y(yes) or N(no)")
+            continue
+        else:
+            continue_flag = True
+            break
+
+    return [choice, quality_choice, PATH]
+
 
 def fetch_info(json: dict, i: int):
     title_long = json['data']['movies'][i]['title_long']
@@ -49,7 +83,6 @@ def verbose_out(json: dict, i: int):
 
     for i in range(len(info_list)):
         print(info_list[i])
-
 
 
 def download_torrent(json: dict, choice: int, quality_choice: str, path: str):
@@ -92,26 +125,15 @@ def recursive_query(magnet_links: list):
         else:
             print(f'{fetch_info(GET, i)[0]} - {fetch_info(GET, i)[-1]}')
 
-    while True:
-        choice = int(input("What movie do you want to download?: "))
-        PATH = input("Do you want to choose a path to download your torrents?: ")
+    user_input = get_user_input()
 
-        while True:
-            quality_choice = input("Enter the quality you want to download (e.g., 720p): ")
-            if quality_choice in {t['quality'] for t in GET['data']['movies'][choice]['torrents']}:
-                break
-            else:
-                print("Invalid quality choice. Please choose from the available qualities.")
+    magnet_links.append([GET, user_input[0], user_input[1], user_input[2]])
 
-        magnet_links.append([GET, choice, quality_choice, PATH])
-
-        option = input("Do you want to download another movie?: [Y/n]")
-        if option.lower() != 'y': 
-            for i in range(len(magnet_links)):
-                download_torrent(magnet_links[i][0], magnet_links[i][1], magnet_links[i][2], magnet_links[i][3])
-            break
-        else:
-            recursive_query(magnet_links)
+    if not continue_flag: 
+        for i in range(len(magnet_links)):
+            download_torrent(magnet_links[i][0], magnet_links[i][1], magnet_links[i][2], magnet_links[i][3])
+    else:
+        recursive_query(magnet_links)
 
 
 parser = argparse.ArgumentParser(prog='pyrateFlix')
@@ -139,7 +161,6 @@ for arg_name, arg_desc in arguments.items():
         else:
             url += f'&{remove_dash(arg_name)}={arg_value}'
 
-
 GET = requests.get(url).json()
 
 # check if there is -l in agrs
@@ -152,37 +173,10 @@ for i in range(n):
     else:
         print(f'{fetch_info(GET, i)[0]} - {fetch_info(GET, i)[-1]}')
 
+user_input = get_user_input()
 
-while True:
-    choice = int(input("What movie do you want to download?: "))
-    if choice > n or choice < n:
-        print(f"Please choose a number between 0 and {n-1}")
-        continue
-
-PATH = input("Do you want to choose a path to download your torrents (e.g., ./)?: ")
-
-while True:
-    quality_choice = input("Enter the quality you want to download (e.g., 720p): ")
-    if quality_choice in {t['quality'] for t in GET['data']['movies'][choice]['torrents']}:
-        break
-    else:
-        print("Invalid quality choice. Please choose from the available qualities.")
-
-continue_flag = bool
-
-while True:
-    option = input("Do you want to download another movie?: [Y/n]")
-    if option.lower() == 'n':
-        continue_flag = False
-        break
-    elif option.lower() != 'y':
-        option = input("Please select Y(yes) or N(no)")
-        continue
-    else:
-        continue_flag = True
-        break
 magnet_links = []
-magnet_links.append([GET, choice, quality_choice, PATH])
+magnet_links.append([GET, user_input[0], user_input[1], user_input[2]])
 
 if not continue_flag:
     for magnet in magnet_links:
@@ -190,7 +184,7 @@ if not continue_flag:
 else:
     recursive_query(magnet_links)
 
-
+#TODO: USE MB/S
 #TODO: possibility of remaking query 
 
 
