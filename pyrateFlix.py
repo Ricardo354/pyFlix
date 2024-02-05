@@ -82,12 +82,20 @@ for arg_name, arg_desc in arguments.items():
 
 GET = requests.get(url).json()
 
-for i in range(GET['data']['movie_count']):
-    print(f'{i} - ', end='')
-    if args.verbose:
-        verbose_out(GET, i)
-    else:
-        print(GET['data']['movies'][i]['title_long'])
+if not args.limit:
+    for i in range(GET['data']['movie_count']):
+        print(f'{i} - ', end='')
+        if args.verbose:
+            verbose_out(GET, i)
+        else:
+            print(fetch_info(GET, i)[0])
+else:
+     for i in range(int(args.limit)):
+        print(f'{i} - ', end='')
+        if args.verbose:
+            verbose_out(GET, i)
+        else:
+            print(fetch_info(GET, i)[0])
 
 print("What movie do you want to download?: ")
 # choice = int(input())
