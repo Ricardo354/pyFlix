@@ -24,6 +24,8 @@ def fetch_info(json: dict, i: int):
     movie_id = f'id: {json["data"]["movies"][i]["id"]}'
     movie_imdb = f'imbd_code: {json["data"]["movies"][i]["imdb_code"]}'
     movie_lang = f'language: {json["data"]["movies"][i]["language"]}'
+
+
     return [title_long, movie_id, movie_imdb, movie_lang]
 
 def verbose_out(json: dict, i: int):
@@ -94,8 +96,17 @@ for i in range(n):
     else:
         print(fetch_info(GET, i)[0])
 
-# print("What movie do you want to download?: ")
-# choice = int(input())
+
+
+choice = int(input("What movie do you want to download?: "))
+
+while True:
+    qu_choice = input("Enter the quality you want to download (e.g., 720p): ")
+    if qu_choice in {t['quality'] for t in GET['data']['movies'][choice]['torrents']}:
+        print("WUNDERBAH")
+        break
+    else:
+        print("Invalid quality choice. Please choose from the available qualities.")
 
 # qu_choice = input()
 # if qu_choice not in 
