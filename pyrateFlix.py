@@ -16,7 +16,6 @@ arguments = {
 '-limit' : 'Limit the number of results per page',
 '-quality' : 'Filter by quality (480p, 720p, 1080p, 1080p.x265, 2160p, 3D)',
 '-minimun_rating' : 'Filter by minimum IMDb rating',
-'-query_term' : 'Search for movies by title/IMDb code, actor/director name/IMDb code, put TITLE between quotes for the love of god',
 '-genre' : 'Filter by genre (See http://www.imdb.com/genre/ for full list)',
 '-sort_by' : 'Sort results by (title, year, rating, peers, seeds, download_count, like_count, date_added)',
 '-order_by' : 'Order results by ascending or descending (asc, desc)',
@@ -71,21 +70,56 @@ def download_torrent(json: dict, choice: int, quality_choice: str, path: str):
     while (not h.status().is_seeding):
         print('\r%.2f%% complete (down: %.1f kB/s up: %.1f kB/s peers: %d) %s' % (
             h.status().progress * 100, h.status().download_rate / 1000, h.status().upload_rate / 1000,
-            h.status().num_peers, h.status().state), end='')
+            h.status().num_peers, h.status().state), end=' ')
         time.sleep(1)
+    print(f"\n{fetch_info(GET, i)[0]} has finished downloading!")
         
 
 def remove_dash(text: str):
     return text.replace('-', '')
 
+import pprint as p
+
+def recursive_query(magnet_links: list):
+    query = input("Search: ")
+    url = f'https://yts.mx/api/v2/list_movies.json?query_term={query}'
+    GET = requests.get(url).json()
+    n = min(args.limit, GET['data']['movie_count']) if args.limit else GET['data']['movie_count']
+    for i in range(n):
+        print(f'\n{i} - ', end='')
+        if args.verbose:
+            verbose_out(GET, i)
+        else:
+            print(f'{fetch_info(GET, i)[0]} - {fetch_info(GET, i)[-1]}')
+
+    while True:
+        choice = int(input("What movie do you want to download?: "))
+        PATH = input("Do you want to choose a path to download your torrents?: ")
+
+        while True:
+            quality_choice = input("Enter the quality you want to download (e.g., 720p): ")
+            if quality_choice in {t['quality'] for t in GET['data']['movies'][choice]['torrents']}:
+                break
+            else:
+                print("Invalid quality choice. Please choose from the available qualities.")
+
+        magnet_links.append([GET, choice, quality_choice, PATH])
+
+        option = input("Do you want to download another movie?: [Y/n]")
+        if option.lower() != 'y': 
+            for i in range(len(magnet_links)):
+                download_torrent(magnet_links[i][0], magnet_links[i][1], magnet_links[i][2], magnet_links[i][3])
+            break
+        else:
+            recursive_query(magnet_links)
+
+
 parser = argparse.ArgumentParser(prog='pyrateFlix')
 
-url = 'https://yts.mx/api/v2/list_movies.json?'
+ 
 
 for arg_name, arg_desc in arguments.items():
-    if arg_name == '-quality':
-        parser.add_argument(f'-qu', f'-{arg_name}', help=f'{arg_desc}')
-    elif arg_name == '-verbose':
+    if arg_name == '-verbose':
         parser.add_argument(f'-{arg_name[1]}', f'-{arg_name}', help=f'{arg_desc}', action='store_true')
     else:
         parser.add_argument(f'-{arg_name[1]}', f'-{arg_name}', help=f'{arg_desc}')
@@ -93,6 +127,9 @@ for arg_name, arg_desc in arguments.items():
 
 args = parser.parse_args()
 
+query = input("Search: ")
+
+url = f'https://yts.mx/api/v2/list_movies.json?query_term="{query}"'
 
 for arg_name, arg_desc in arguments.items():
     arg_value = getattr(args, remove_dash(arg_name))
@@ -102,8 +139,8 @@ for arg_name, arg_desc in arguments.items():
         else:
             url += f'&{remove_dash(arg_name)}={arg_value}'
 
-GET = requests.get(url).json()
 
+GET = requests.get(url).json()
 
 # check if there is -l in agrs
 n = int(GET['data']['movie_count'] if not args.limit else args.limit)
@@ -117,23 +154,42 @@ for i in range(n):
 
 
 
-
 choice = int(input("What movie do you want to download?: "))
 PATH = input("Do you want to choose a path to download your torrents?: ")
-
 while True:
     quality_choice = input("Enter the quality you want to download (e.g., 720p): ")
     if quality_choice in {t['quality'] for t in GET['data']['movies'][choice]['torrents']}:
-        download_torrent(GET, choice, quality_choice, PATH)
         break
     else:
         print("Invalid quality choice. Please choose from the available qualities.")
 
+continue_flag = bool
 
-#TODO: ENABLE MULTIPLE TORRENT DOWNLOADING.
-# -- > make magnet links and then append to a list , the download each one. 
+while True:
+    option = input("Do you want to download another movie?: [Y/n]")
+    if option.lower() == 'n':
+        continue_flag = False
+        break
+    elif option.lower() != 'y':
+        option = input("Please select Y(yes) or N(no)")
+        continue
+    else:
+        continue_flag = True
+        break
+magnet_links = []
+magnet_links.append([GET, choice, quality_choice, PATH])
 
-#TODO: DESKTOP NOTIFICATION BUTTON
+if not continue_flag:
+    for magnet in magnet_links:
+        download_torrent(magnet[0], magnet[1], magnet[2], magnet[3])
+else:
+    recursive_query(magnet_links)
+    
 
-#TODO: FIX -w -- > UPDATE; JUST CANT FUCKING FIND IT , GOING TO LEAVE THIS TODO HERE ANYWAY
+
+#TODO: CHECK IF MOVIE I SELECTED IS IN RANGE
+
+#TODO: possibility of remaking query 
+
+
 
