@@ -113,7 +113,8 @@ for i in range(n):
     if args.verbose:
         verbose_out(GET, i)
     else:
-        print(fetch_info(GET, i)[0])
+        print(f'{fetch_info(GET, i)[0]} - {fetch_info(GET, i)[-1]}')
+
 
 
 
