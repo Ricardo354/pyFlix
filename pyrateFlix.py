@@ -5,6 +5,7 @@ import requests
 import argparse
 import libtorrent as lt
 
+
 arguments = {
 '-limit' : 'Limit the number of results per page',
 '-quality' : 'Filter by quality (480p, 720p, 1080p, 1080p.x265, 2160p, 3D)',
@@ -82,53 +83,31 @@ for arg_name, arg_desc in arguments.items():
 
 GET = requests.get(url).json()
 
-if not args.limit:
-    for i in range(GET['data']['movie_count']):
-        print(f'{i} - ', end='')
-        if args.verbose:
-            verbose_out(GET, i)
-        else:
-            print(fetch_info(GET, i)[0])
-else:
-     for i in range(int(args.limit)):
-        print(f'{i} - ', end='')
-        if args.verbose:
-            verbose_out(GET, i)
-        else:
-            print(fetch_info(GET, i)[0])
 
-print("What movie do you want to download?: ")
+# check if there is -l in agrs
+n = int(GET['data']['movie_count'] if not args.limit else args.limit)
+
+for i in range(n):
+    print(f'{i} - ', end='')
+    if args.verbose:
+        verbose_out(GET, i)
+    else:
+        print(fetch_info(GET, i)[0])
+
+# print("What movie do you want to download?: ")
 # choice = int(input())
 
 # qu_choice = input()
 # if qu_choice not in 
-
-
-
 # download_torrent(choice)
 
 
+
+
+
 #TODO: ADD QUALITY CHOICE AFTER MOVIE CHOICE
-
-#TODO: FIX THIS
-'''
-./pyrateFlix.py -l 3 -q 'Toy Story'                                                               
-0 - Toy Story That Time Forgot (2014)
-1 - Toy Story of Terror (2013)
-2 - Charlie: A Toy Story (2012)
-3 - Traceback (most recent call last):
-  File "/home/johndoe/repos/pyrateFlix/./pyrateFlix.py", line 80, in <module>
-    print(GET['data']['movies'][i]['title_long'])
-          ~~~~~~~~~~~~~~~~~~~~~^^^
-IndexError: list index out of range
-'''
-
-#TODO: FIX -w
-
-
 #TODO: FINISH download_torrent fn
-#TODO: SPECIFY PATH TO DOWNLOAD
-
-#TODO: DESKTOP NOTIFICATION WITH OPEN FOLDER BUTTON
+#TODO: DESKTOP NOTIFICATION BUTTON
     
 
+#TODO: FIX -w -- > UPDATE; JUST CANT FUCKING FIND IT , GOING TO LEAVE THIS TODO HERE ANYWAY
