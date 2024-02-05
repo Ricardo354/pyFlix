@@ -7,6 +7,8 @@ import urllib
 import libtorrent as lt
 import time 
 import warnings
+import progressbar
+
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
@@ -69,9 +71,18 @@ def download_torrent(json: dict, choice: int, quality_choice: str, path: str):
         'save_path': path  
     }
     h = lt.add_magnet_uri(ses, magnet_link, params)
-        
-    while not h.status().is_seeding:
-        time.sleep(1)
+
+     
+    try:
+        widgets = [f'Downloading: {fetch_info(json, choice)[0]} ', progressbar.AnimatedMarker()]
+        bar = progressbar.ProgressBar(widgets=widgets).start()
+        while not h.status().is_seeding:
+            time.sleep(1)
+            bar.update(0.6)
+    except ModuleNotFoundError:
+        print("Downloading...")
+        while not h.status().is_seeding:
+            time.sleep(1)
 
         
 
