@@ -3,7 +3,12 @@
 import sys
 import requests
 import argparse
+import urllib
 import libtorrent as lt
+import time 
+import warnings
+
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 
 arguments = {
@@ -51,10 +56,30 @@ def verbose_out(json: dict, i: int):
 
 
 
-def download_torrent(json: dict, choice: int):
-    pass
-    # TORRENT_HASH = json['data']['movies']
+def download_torrent(json: dict, choice: int, quality_choice: str, path: str):
+    for torrent in json['data']['movies'][choice]['torrents']:
+        if torrent['quality'] == quality_choice:
+            TORRENT_HASH = torrent['hash']
+            break
+    magnet_link = f'magnet:?xt=urn:btih:{TORRENT_HASH}&dn={urllib.parse.quote(fetch_info(json, choice)[0])}&tr=http://tracker.opentrackr.org:1337/announce&tr=udp://tracker.openbittorrent.com:80'
 
+    ses = lt.session()
+
+    params = {
+        'save_path': path  
+    }
+    h = lt.add_magnet_uri(ses, magnet_link, params)
+        
+    while not h.status().is_seeding:
+        time.sleep(1)
+
+    info = h.get_torrent_info()
+
+    # Save the .torrent file
+    torrent_file_path = info.name() + ".torrent"
+    with open(torrent_file_path, "wb") as f:
+        f.write(lt.bencode(info))
+    
 
 def remove_dash(text: str):
     return text.replace('-', '')
@@ -99,26 +124,18 @@ for i in range(n):
 
 
 choice = int(input("What movie do you want to download?: "))
+PATH = input("Do you want to choose a path to download your torrents?: (default .)")
 
 while True:
-    qu_choice = input("Enter the quality you want to download (e.g., 720p): ")
-    if qu_choice in {t['quality'] for t in GET['data']['movies'][choice]['torrents']}:
-        print("WUNDERBAH")
+    quality_choice = input("Enter the quality you want to download (e.g., 720p): ")
+    if quality_choice in {t['quality'] for t in GET['data']['movies'][choice]['torrents']}:
+        download_torrent(GET, choice, quality_choice, PATH)
         break
     else:
         print("Invalid quality choice. Please choose from the available qualities.")
 
-# qu_choice = input()
-# if qu_choice not in 
-# download_torrent(choice)
+#TODO: ENABLE MULTIPLE TORRENT DOWNLOADING.
 
-
-
-
-
-#TODO: ADD QUALITY CHOICE AFTER MOVIE CHOICE
-#TODO: FINISH download_torrent fn
 #TODO: DESKTOP NOTIFICATION BUTTON
-    
 
 #TODO: FIX -w -- > UPDATE; JUST CANT FUCKING FIND IT , GOING TO LEAVE THIS TODO HERE ANYWAY
