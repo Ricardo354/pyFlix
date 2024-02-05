@@ -69,7 +69,7 @@ def download_torrent(json: dict, choice: int, quality_choice: str, path: str):
 
 
     while (not h.status().is_seeding):
-        print('\r%.2f%% complete (down: %.1f kB/s up: %.1f kB/s peers: %d) %s...' % (
+        print('\r%.2f%% complete (down: %.1f kB/s up: %.1f kB/s peers: %d) %s' % (
             h.status().progress * 100, h.status().download_rate / 1000, h.status().upload_rate / 1000,
             h.status().num_peers, h.status().state), end='')
         time.sleep(1)
@@ -137,4 +137,3 @@ while True:
 
 #TODO: FIX -w -- > UPDATE; JUST CANT FUCKING FIND IT , GOING TO LEAVE THIS TODO HERE ANYWAY
 
-#TODO: QUALITY NOW PRINTS WITHOUT -v
