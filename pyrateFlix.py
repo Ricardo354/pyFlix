@@ -158,7 +158,9 @@ while True:
     if choice > n or choice < n:
         print(f"Please choose a number between 0 and {n-1}")
         continue
+
 PATH = input("Do you want to choose a path to download your torrents (e.g., ./)?: ")
+
 while True:
     quality_choice = input("Enter the quality you want to download (e.g., 720p): ")
     if quality_choice in {t['quality'] for t in GET['data']['movies'][choice]['torrents']}:
