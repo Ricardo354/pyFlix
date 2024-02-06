@@ -26,6 +26,7 @@ Read the -h before using!
 ```bash
 ./pyrateFlix --help
 ```
+The program is not completely idiotproof, so please use it carefully, and open a issue if you find a dumb bug.
 
 ## Contributing
 
