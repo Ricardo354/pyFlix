@@ -15,7 +15,7 @@ git clone https://github.com/Ricardo354/pyratedFlix.git
 ```bash
 pip install -r /path/to/requirements.txt
 ```
-If you cant install libtorrent, try to downgrade your python to 3.9!
+**If you cant install libtorrent, try to downgrade your python to 3.9!**
 
 3.Give Read, Write and Execute permissions to pyrateFlix
 ```bash
