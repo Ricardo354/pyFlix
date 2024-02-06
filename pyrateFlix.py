@@ -4,9 +4,10 @@ import sys
 import requests
 import argparse
 import urllib
-import libtorrent as lt
 import time 
 import warnings
+
+import libtorrent as lt
 
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -26,7 +27,7 @@ arguments = {
 
 def get_user_input():
 
-    global continue_flag
+    global continue_flag # --> recursion flag
 
     continue_flag = bool
     while True:
@@ -59,14 +60,14 @@ def get_user_input():
     return [choice, quality_choice, PATH]
 
 
-def fetch_info(json: dict, i: int):
+def fetch_movie_info(json: dict, i: int):
     title_long = json['data']['movies'][i]['title_long']
     movie_id = f'id: {json["data"]["movies"][i]["id"]}'
     movie_imdb = f'imbd_code: {json["data"]["movies"][i]["imdb_code"]}'
     movie_lang = f'language: {json["data"]["movies"][i]["language"]}'
     qualities = set()
     '''
-    I COULD NOT FIGURE OUT A PRECISE AND EFFICIENT AND PRECISE WAY TO PRINT THE QUALITIES, 
+    I COULD NOT FIGURE OUT A PRECISE AND EFFICIENT WAY TO PRINT THE QUALITIES, 
     SO I JUST THREW IN A SET. IF A FUTURE USER/CONTRIBUTOR KNOWS A WAY TO ENHANCE
     THIS, FOR THE LOVE OF GOD MAKE THE COMMIT.
 
@@ -77,10 +78,10 @@ def fetch_info(json: dict, i: int):
             qualities.add(json['data']['movies'][movie]['torrents'][torrent]['quality'])
 
 
-    return [title_long, movie_id, movie_imdb, movie_lang, qualities]
+    return [title_long, movie_id, movie_imdb, movie_lang, qualities] 
 
 def verbose_out(json: dict, i: int):
-    info_list = fetch_info(json, i)
+    info_list = fetch_movie_info(json, i)
 
     for i in range(len(info_list)):
         print(info_list[i])
@@ -98,7 +99,6 @@ def download_torrent(json: dict, choice: int, quality_choice: str, path: str):
         'save_path': path  
     }
     h = lt.add_magnet_uri(ses, magnet_link, params)
-
 
     while (not h.status().is_seeding):
         print('\r%.2f%% complete (down: %.1f mB/s up: %.1f mB/s peers: %d) %s' % (
@@ -135,7 +135,6 @@ def recursive_query(magnet_links: list):
 
 parser = argparse.ArgumentParser(prog='pyrateFlix')
 
- 
 
 for arg_name, arg_desc in arguments.items():
     if arg_name == '-verbose':
@@ -181,8 +180,18 @@ if not continue_flag:
 else:
     recursive_query(magnet_links)
 
-#TODO: USE MB/S
-#TODO: possibility of remaking query 
+#TODO: possibility of remaking query
+#TODO: SHOW SIZE IN -v 
+#TODO: Check 'avengers' input 
+'''
+0 - Traceback (most recent call last):
+  File "/home/johndoe/repos/pyrateFlix/./pyrateFlix.py", line 171, in <module>
+    print(f'{fetch_info(GET, i)[0]} - {fetch_info(GET, i)[-1]}')
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/johndoe/repos/pyrateFlix/./pyrateFlix.py", line 76, in fetch_info
+    for torrent in range(len(json['data']['movies'][movie]['torrents'])):
+                             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+IndexError: list index out of range
 
-
+'''
 
