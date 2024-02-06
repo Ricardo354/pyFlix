@@ -65,6 +65,11 @@ def fetch_movie_info(json: dict, i: int):
     movie_id = f'id: {json["data"]["movies"][i]["id"]}'
     movie_imdb = f'imbd_code: {json["data"]["movies"][i]["imdb_code"]}'
     movie_lang = f'language: {json["data"]["movies"][i]["language"]}'
+
+# 4 torrents
+    # for i in movie_count
+    #   for j in len(['data']['movies'][i]['torrents'])
+#           pegar ['data']['movies'][i]['torrents'][i]['size']
     qualities = set()
     '''
     I COULD NOT FIGURE OUT A PRECISE AND EFFICIENT WAY TO PRINT THE QUALITIES, 
@@ -74,7 +79,7 @@ def fetch_movie_info(json: dict, i: int):
     IF YOU USE AN ARRAY FOR THIS IT APPENDS 720p LIKE 20 TIMES, IT IS TERRIFYING.
     '''
     for movie in range(json['data']['movie_count']):
-        for torrent in range(len(json['data']['movies'][movie]['torrents'])):
+        for torrent in range(0, len(json['data']['movies'][movie]['torrents'])):
             qualities.add(json['data']['movies'][movie]['torrents'][torrent]['quality'])
 
 
@@ -91,7 +96,7 @@ def download_torrent(json: dict, choice: int, quality_choice: str, path: str):
         if torrent['quality'] == quality_choice:
             TORRENT_HASH = torrent['hash']
             break
-    magnet_link = f'magnet:?xt=urn:btih:{TORRENT_HASH}&dn={urllib.parse.quote(fetch_info(json, choice)[0])}&tr=http://tracker.opentrackr.org:1337/announce&tr=udp://tracker.openbittorrent.com:80'
+    magnet_link = f'magnet:?xt=urn:btih:{TORRENT_HASH}&dn={urllib.parse.quote(fetch_movie_info(json, choice)[0])}&tr=http://tracker.opentrackr.org:1337/announce&tr=udp://tracker.openbittorrent.com:80'
 
 
     ses = lt.session()
@@ -105,7 +110,7 @@ def download_torrent(json: dict, choice: int, quality_choice: str, path: str):
             h.status().progress * 100, h.status().download_rate / 1000000, h.status().upload_rate / 1000000,
             h.status().num_peers, h.status().state), end=' ')
         time.sleep(1)
-    print(f"\n{fetch_info(GET, i)[0]} has finished downloading!")
+    print(f"\n{fetch_movie_info(GET, i)[0]} has finished downloading!")
         
 def remove_dash(text: str):
     return text.replace('-', '')
@@ -114,13 +119,14 @@ def recursive_query(magnet_links: list):
     query = input("Search: ")
     url = f'https://yts.mx/api/v2/list_movies.json?query_term={query}'
     GET = requests.get(url).json()
+    check_query(GET)
     n = min(args.limit, GET['data']['movie_count']) if args.limit else GET['data']['movie_count']
     for i in range(n):
         print(f'\n{i} - ', end='')
         if args.verbose:
             verbose_out(GET, i)
         else:
-            print(f'{fetch_info(GET, i)[0]} - {fetch_info(GET, i)[-1]}')
+            print(f'{fetch_movie_info(GET, i)[0]} - {fetch_movie_info(GET, i)[-1]}')
 
     user_input = get_user_input()
 
@@ -131,6 +137,17 @@ def recursive_query(magnet_links: list):
             download_torrent(magnet_links[i][0], magnet_links[i][1], magnet_links[i][2], magnet_links[i][3])
     else:
         recursive_query(magnet_links)
+
+def check_query(json: dict):
+    global query
+    global url
+    global GET
+    if json['data']['movie_count'] == 0:
+        print("No movies found, search again. (TYPE THE EXACT NAME OF THE MOVIE!)\n")
+        query = input("Search: ")
+        url = f'https://yts.mx/api/v2/list_movies.json?query_term="{query}"'
+        GET = requests.get(url).json()
+        check_query(GET)
 
 
 parser = argparse.ArgumentParser(prog='pyrateFlix')
@@ -158,6 +175,8 @@ for arg_name, arg_desc in arguments.items():
             url += f'&{remove_dash(arg_name)}={arg_value}'
 
 GET = requests.get(url).json()
+check_query(GET)
+
 
 # check if there is -l in agrs
 n = int(GET['data']['movie_count'] if not args.limit else args.limit)
@@ -167,9 +186,10 @@ for i in range(n):
     if args.verbose:
         verbose_out(GET, i)
     else:
-        print(f'{fetch_info(GET, i)[0]} - {fetch_info(GET, i)[-1]}')
+        print(f'{fetch_movie_info(GET, i)[0]} - {fetch_movie_info(GET, i)[-1]}')
 
 user_input = get_user_input()
+
 
 magnet_links = []
 magnet_links.append([GET, user_input[0], user_input[1], user_input[2]])
@@ -180,18 +200,12 @@ if not continue_flag:
 else:
     recursive_query(magnet_links)
 
-#TODO: possibility of remaking query
-#TODO: SHOW SIZE IN -v 
-#TODO: Check 'avengers' input 
-'''
-0 - Traceback (most recent call last):
-  File "/home/johndoe/repos/pyrateFlix/./pyrateFlix.py", line 171, in <module>
-    print(f'{fetch_info(GET, i)[0]} - {fetch_info(GET, i)[-1]}')
-             ^^^^^^^^^^^^^^^^^^
-  File "/home/johndoe/repos/pyrateFlix/./pyrateFlix.py", line 76, in fetch_info
-    for torrent in range(len(json['data']['movies'][movie]['torrents'])):
-                             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
-IndexError: list index out of range
 
-'''
+#TODO: put size in -v < - - last todo :)
+
+# the input 'avengers' is buggy, it says 28 movies but it shows only 19 and after that i raises an IndexError
+# my guess is that the API is faulty with some searches, i cant actually know.
+
+
+
 
