@@ -22,9 +22,11 @@ If you cant install libtorrent, try to downgrade your python to 3.9!
 chmod +rwx pyrateFlix.py
 ```
 ## Usage
-Read the -h before using!
+
+**Read the -h before using!**
+
 ```bash
-./pyrateFlix --help
+./pyrateFlix 
 ```
 The program is not completely idiotproof, so please use it carefully, and open a issue if you find a dumb bug.
 
