@@ -1,7 +1,6 @@
 # PyrateFlix
 
-   Download movies via torrent from yts.mx API
-
+   pyrateFlix is a command-line tool that enables users to effortlessly download movies via torrent from the yts.mx API.
 
 ## Installation
 
