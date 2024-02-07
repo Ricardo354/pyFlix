@@ -20,9 +20,7 @@ arguments = {
 '-genre' : 'Filter by genre (See http://www.imdb.com/genre/ for full list)',
 '-sort_by' : 'Sort results by (title, year, rating, peers, seeds, download_count, like_count, date_added)',
 '-order_by' : 'Order results by ascending or descending (asc, desc)',
-'-with_rt_ratings' : 'Include Rotten Tomatoes rating (true, false)',
 '-verbose' : 'Display verbose output (title, id, imdb_code, lang, qualities)',
-
 }
 
 def get_user_input():
@@ -200,6 +198,7 @@ if not continue_flag:
 else:
     recursive_query(magnet_links)
 
+#TODO: Work on error handling < - - NOW THAT is the las todo
 
 #TODO: put size in -v < - - last todo :)
 
