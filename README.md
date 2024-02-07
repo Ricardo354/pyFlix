@@ -44,6 +44,9 @@ options:
   -v, --verbose         Display verbose output (title, id, imdb_code, lang, qualities)
 ```
 
+![using pyrateFlix](example.gif)
+
+
 The program is not completely idiotproof, so please use it carefully, and open a issue if you find a dumb bug.
 
 ## Contributing
