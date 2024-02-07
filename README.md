@@ -23,11 +23,27 @@ chmod +rwx pyrateFlix.py
 ```
 ## Usage
 
-**Read the -h before using!**
-
 ```bash
-./pyrateFlix 
+./pyrateFlix.py -h                                                                                                                                                                            ✔ 
+usage: pyrateFlix [-h] [-l LIMIT] [-q QUALITY] [-m MINIMUN_RATING] [-g GENRE] [-s SORT_BY] [-o ORDER_BY] [-w WITH_RT_RATINGS] [-v]
+
+options:
+  -h, --help            show this help message and exit
+  -l LIMIT, --limit LIMIT
+                        Limit the number of results per page
+  -q QUALITY, --quality QUALITY
+                        Filter by quality (480p, 720p, 1080p, 1080p.x265, 2160p, 3D)
+  -m MINIMUN_RATING, --minimun_rating MINIMUN_RATING
+                        Filter by minimum IMDb rating
+  -g GENRE, --genre GENRE
+                        Filter by genre (See http://www.imdb.com/genre/ for full list)
+  -s SORT_BY, --sort_by SORT_BY
+                        Sort results by (title, year, rating, peers, seeds, download_count, like_count, date_added)
+  -o ORDER_BY, --order_by ORDER_BY
+                        Order results by ascending or descending (asc, desc)
+  -v, --verbose         Display verbose output (title, id, imdb_code, lang, qualities)
 ```
+
 The program is not completely idiotproof, so please use it carefully, and open a issue if you find a dumb bug.
 
 ## Contributing
