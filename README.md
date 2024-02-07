@@ -1,3 +1,5 @@
+
+https://github.com/Ricardo354/pyrateFlix/assets/45215219/44a63459-6276-4cd5-84cc-81763f793b8a
 # PyrateFlix
 
    Download movies via torrent from yts.mx API
@@ -44,7 +46,7 @@ options:
   -v, --verbose         Display verbose output (title, id, imdb_code, lang, qualities)
 ```
 
-![using pyrateFlix](example.mp4)
+https://github.com/Ricardo354/pyrateFlix/assets/45215219/746958b3-c13a-40a7-bc69-63bae3614c72
 
 
 The program is not completely idiotproof, so please use it carefully, and open a issue if you find a dumb bug.
