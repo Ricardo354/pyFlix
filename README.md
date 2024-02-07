@@ -44,8 +44,6 @@ options:
   -v, --verbose         Display verbose output (title, id, imdb_code, lang, qualities)
 ```
 
-![](https://github.com/Ricardo354/pyrateFlix/edit/main/example.gif)
-
 The program is not completely idiotproof, so please use it carefully, and open a issue if you find a dumb bug.
 
 ## Contributing
