@@ -1,5 +1,3 @@
-
-https://github.com/Ricardo354/pyrateFlix/assets/45215219/44a63459-6276-4cd5-84cc-81763f793b8a
 # PyrateFlix
 
    Download movies via torrent from yts.mx API
