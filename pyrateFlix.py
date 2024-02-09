@@ -64,10 +64,7 @@ def fetch_movie_info(json: dict, i: int):
     movie_imdb = f'imbd_code: {json["data"]["movies"][i]["imdb_code"]}'
     movie_lang = f'language: {json["data"]["movies"][i]["language"]}'
 
-# 4 torrents
-    # for i in movie_count
-    #   for j in len(['data']['movies'][i]['torrents'])
-#           pegar ['data']['movies'][i]['torrents'][i]['size']
+
     qualities = set()
     '''
     I COULD NOT FIGURE OUT A PRECISE AND EFFICIENT WAY TO PRINT THE QUALITIES, 
@@ -201,6 +198,10 @@ else:
 #TODO: Work on error handling < - - NOW THAT is the las todo
 
 #TODO: put size in -v < - - last todo :)
+# 4 torrents
+    # for i in movie_count
+    #   for j in len(['data']['movies'][i]['torrents'])
+           # pegar ['data']['movies'][i]['torrents'][i]['size']
 
 # the input 'avengers' is buggy, it says 28 movies but it shows only 19 and after that i raises an IndexError
 # my guess is that the API is faulty with some searches, i cant actually know.
