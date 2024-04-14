@@ -15,6 +15,12 @@ git clone https://github.com/Ricardo354/pyratedFlix.git
 sudo apt-get install python3.9
 ```
 
+3.Create a virtual enviroment and activate it
+```bash
+python3.9 -m venv venv
+source venv/bin/activate
+```
+
 3.Install the requirements
 ```bash
 pip install -r requirements.txt
