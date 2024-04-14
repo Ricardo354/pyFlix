@@ -9,14 +9,24 @@
 git clone https://github.com/Ricardo354/pyratedFlix.git
 ``` 
 
-2.Install the requirements.txt.
+2.Install python 3.9
 
 ```bash
-pip install -r /path/to/requirements.txt
+sudo apt-get install python3.9
 ```
-**If you cant install libtorrent, try to downgrade your python to 3.9!**
 
-3.Give Read, Write and Execute permissions to pyrateFlix
+3.Create a virtual enviroment and activate it
+```bash
+python3.9 -m venv venv
+source venv/bin/activate
+```
+
+3.Install the requirements
+```bash
+pip install -r requirements.txt
+```
+
+4.Give Read, Write and Execute permissions to pyrateFlix
 ```bash
 chmod +rwx pyrateFlix.py
 ```
@@ -52,7 +62,6 @@ The program is not completely idiotproof, so please use it carefully, and open a
 
 Pull requests are welcome. For major changes, please open an issue first
 to discuss what you would like to change.
-
 
 
 ## License
