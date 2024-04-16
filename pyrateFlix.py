@@ -101,7 +101,7 @@ def download_torrent(json: dict, choice: int, quality_choice: str, path: str):
     h = lt.add_magnet_uri(ses, magnet_link, params)
 
     while (not h.status().is_seeding):
-        print('\n\r%.2f%% complete (down: %.1f mB/s up: %.1f mB/s peers: %d) %s' % (
+        print('\r%.2f%% complete (down: %.1f mB/s up: %.1f mB/s peers: %d) %s' % (
             h.status().progress * 100, h.status().download_rate / 1000000, h.status().upload_rate / 1000000,
             h.status().num_peers, h.status().state), end=' ')
         time.sleep(1)
