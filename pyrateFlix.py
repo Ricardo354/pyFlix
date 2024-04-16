@@ -30,8 +30,8 @@ def get_user_input():
     continue_flag = bool
     while True:
         choice = int(input("What movie do you want to download?: "))
-        if choice < 0 or choice > n:
-            print(f"Please choose a number between 0 and {n}")
+        if choice < 0 or choice > (n-1):
+            print(f"Please choose a number between 0 and {n-1}")
         else:
             break
 
