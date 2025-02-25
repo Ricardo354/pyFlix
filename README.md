@@ -68,8 +68,7 @@ options:
   -v, --verbose         Display verbose output (title, id, imdb_code, lang, qualities)
 ```
 
-https://github.com/Ricardo354/pyFlix/assets/45215219/746958b3-c13a-40a7-bc69-63bae3614c72
-
+https://github.com/user-attachments/assets/ee174458-adce-464d-95bd-4248975f1505
 
 ## TODO:
 
