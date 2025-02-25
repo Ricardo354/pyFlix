@@ -1,40 +1,55 @@
-# PyrateFlix
+# pyFlix
 
-   **_pyrateFlix_ is a command-line tool that enables users to effortlessly download movies via torrent from YTS YIFY API.**
+   **_pyFlix_ is a command-line tool that enables users to effortlessly download movies via torrent**
 
 ## Installation
 
-1.Clone the git repository
+1. Clone the git repository
 ```bash
-git clone https://github.com/Ricardo354/pyratedFlix.git
+git clone https://github.com/Ricardo354/pyFlix.git
 ``` 
 
-2.Install python 3.9
+2. Install python 3.10
 
 ```bash
-sudo apt-get install python3.9
+sudo apt-get install python3.10
 ```
 
-3.Create a virtual enviroment and activate it
+2.1. You can also use pyenv
+
 ```bash
-python3.9 -m venv venv
+curl -fsSL https://pyenv.run | bash
+```
+
+2.2. Documentation on how to set it up:\
+https://github.com/pyenv/pyenv?tab=readme-ov-file#a-getting-pyenv
+
+
+3. Create a virtual enviroment and activate it
+```bash
+python -m venv venv
 source venv/bin/activate
 ```
 
-3.Install the requirements
+3. Install the requirements
 ```bash
 pip install -r requirements.txt
 ```
 
-4.Give Read, Write and Execute permissions to pyrateFlix
+4. Install system dependencies
 ```bash
-chmod +rwx pyrateFlix.py
+sudo apt update && sudo apt install -y fzf chafa aria2
+```
+
+5.Give Read, Write and Execute permissions to pyFlix
+```bash
+chmod +rwx pyFlix.py
 ```
 ## Usage
 
 ```bash
-./pyrateFlix.py -h                                                                                                                                                                            ✔ 
-usage: pyrateFlix [-h] [-l LIMIT] [-q QUALITY] [-m MINIMUN_RATING] [-g GENRE] [-s SORT_BY] [-o ORDER_BY] [-w WITH_RT_RATINGS] [-v]
+./pyFlix.py -h                                                                                                                                                                            
+usage: pyFlix [-h] [-l LIMIT] [-q QUALITY] [-m MINIMUN_RATING] [-g GENRE] [-s SORT_BY] [-o ORDER_BY] [-w WITH_RT_RATINGS] [-v]
 
 options:
   -h, --help            show this help message and exit
@@ -53,7 +68,7 @@ options:
   -v, --verbose         Display verbose output (title, id, imdb_code, lang, qualities)
 ```
 
-https://github.com/Ricardo354/pyrateFlix/assets/45215219/746958b3-c13a-40a7-bc69-63bae3614c72
+https://github.com/Ricardo354/pyFlix/assets/45215219/746958b3-c13a-40a7-bc69-63bae3614c72
 
 
 The program is not completely idiotproof, so please use it carefully, and open a issue if you find a dumb bug.
