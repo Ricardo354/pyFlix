@@ -1,6 +1,8 @@
 certifi==2024.2.2
 charset-normalizer==3.3.2
 idna==3.7
-libtorrent==2.0.9
+pip==23.0.1
+pyfzf==0.3.1
 requests==2.31.0
+setuptools==65.5.0
 urllib3==2.2.1
