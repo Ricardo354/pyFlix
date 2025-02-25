@@ -72,6 +72,10 @@ https://github.com/user-attachments/assets/ee174458-adce-464d-95bd-4248975f1505
 
 ## TODO:
 
+- [x] **Detach terminal the background download movies**
+    
+- [x] **Notification when movie finished downloading**
+
 - [ ] **How much time is left for downloading:** Display the remaining time for torrent downloads.
   
 - [ ] **Multiple movie downloading:** Allow downloading multiple movies simultaneously.
