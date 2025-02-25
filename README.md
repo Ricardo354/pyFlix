@@ -71,6 +71,24 @@ options:
 https://github.com/Ricardo354/pyFlix/assets/45215219/746958b3-c13a-40a7-bc69-63bae3614c72
 
 
+## TODO:
+
+- [ ] **How much time is left for downloading:** Display the remaining time for torrent downloads.
+  
+- [ ] **Multiple movie downloading:** Allow downloading multiple movies simultaneously.
+
+- [ ] **Directly watching the movie:**
+  - [ ] **Peerflix:** Stream the movie using **peerflix**.
+  - [ ] **Making HTTP server for async downloading and uploading, then play with mpv:** Create an HTTP server to serve the file to **mpv** during async download/upload. needing PoC
+
+- [ ] **Subtitle integration:** Add subtitle fetching as an argument to the command.
+
+
+- [ ] **Dynamic resizing of fzf --preview-window (fucking impossible):** Make the `fzf` preview window dynamically resize based on the content.
+
+- [ ] **Description, synopsis, and rating of movie in fzf --preview-window (fucking impossible):** Display detailed movie information (synopsis, description, and rating) inside the `fzf` preview window.
+
+
 The program is not completely idiotproof, so please use it carefully, and open a issue if you find a dumb bug.
 
 ## Contributing
