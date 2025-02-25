@@ -31,12 +31,12 @@ python -m venv venv
 source venv/bin/activate
 ```
 
-3. Install the requirements
+4. Install the requirements
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Install system dependencies
+4.1. Install system dependencies
 ```bash
 sudo apt update && sudo apt install -y fzf chafa aria2
 ```
